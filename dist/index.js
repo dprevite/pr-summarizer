@@ -125,10 +125,10 @@ async function run() {
         const aiDescription = aiHeader + description;
         // Update PR description
         const existingBody = pr.body || '';
-        // Check if there's already an AI-generated section
-        const aiSectionRegex = /\n\n## 🤖 PR Summarizer/;
-        const updatedBody = aiSectionRegex.test(existingBody)
-            ? existingBody.replace(aiSectionRegex, aiHeader) + description
+        // Check if there's already an AI-generated section and replace it
+        const aiSectionRegex = /\n\n## 🤖 PR Summarizer\n\n[\s\S]*?(?=\n\n##|$)/;
+        const updatedBody = existingBody.includes('## 🤖 PR Summarizer')
+            ? existingBody.replace(aiSectionRegex, aiDescription)
             : existingBody + aiDescription;
         await octokit.rest.pulls.update({
             owner,
