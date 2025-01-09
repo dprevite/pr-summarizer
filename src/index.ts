@@ -109,14 +109,22 @@ async function run(): Promise<void> {
       ? existingBody.replace(aiSectionRegex, aiDescription)
       : existingBody + aiDescription;
 
-    await octokit.rest.pulls.update({
+    core.info(`Attempting to ${hasExistingAiSection ? 'update' : 'append'} PR description...`);
+    
+    const updateResponse = await octokit.rest.pulls.update({
       owner,
       repo,
       pull_number: prNumber,
       body: updatedBody
     });
     
-    core.info(`PR description ${hasExistingAiSection ? 'updated with new' : 'appended with new'} AI-generated content`);
+    if (updateResponse.status === 200) {
+      core.info(`GitHub API update successful (Status: ${updateResponse.status})`);
+      core.info(`Updated PR description length: ${updateResponse.data.body?.length || 0} characters`);
+      core.info(`PR description ${hasExistingAiSection ? 'updated with new' : 'appended with new'} AI-generated content`);
+    } else {
+      core.warning(`GitHub API update returned unexpected status: ${updateResponse.status}`);
+    }
     
     core.info('Successfully updated PR description');
   } catch (error) {
