@@ -98,10 +98,14 @@ async function run(): Promise<void> {
 
     // Update PR description
     const existingBody = pr.body || '';
+    core.info(`Existing PR description: ${existingBody ? 'present' : 'empty'}`);
     
     // Check if there's already an AI-generated section and replace it
     const aiSectionRegex = /\n\n## 🤖 PR Summarizer\n\n[\s\S]*?(?=\n\n##|$)/;
-    const updatedBody = existingBody.includes('## 🤖 PR Summarizer')
+    const hasExistingAiSection = existingBody.includes('## 🤖 PR Summarizer');
+    core.info(`Existing AI section: ${hasExistingAiSection ? 'found' : 'not found'}`);
+
+    const updatedBody = hasExistingAiSection
       ? existingBody.replace(aiSectionRegex, aiDescription)
       : existingBody + aiDescription;
 
@@ -111,6 +115,8 @@ async function run(): Promise<void> {
       pull_number: prNumber,
       body: updatedBody
     });
+    
+    core.info(`PR description ${hasExistingAiSection ? 'updated with new' : 'appended with new'} AI-generated content`);
     
     core.info('Successfully updated PR description');
   } catch (error) {
