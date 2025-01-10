@@ -38,14 +38,14 @@ jobs:
   generate-description:
     runs-on: ubuntu-latest
     steps:
-      - uses: your-org/pr-description@v1
+      - uses: meido-ai/pr-summarizer@v1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          openai-api-key: ${{ secrets.OPENAI_API_KEY }}
-          # Optional: Use Anthropic instead
-          # anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
-          # model-provider: 'anthropic'
-          # model: 'claude-3-sonnet-20240229'
+          anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
+          model-provider: 'anthropic'
+          model: 'claude-3-sonnet-20240229'
+          # Optional: Use OpenAI instead
+          # openai-api-key: ${{ secrets.OPENAI_API_KEY }}
 ```
 
 ## Inputs
@@ -53,12 +53,21 @@ jobs:
 | Input | Description | Required | Default |
 |-------|-------------|----------|---------|
 | `github-token` | GitHub token for API access | Yes | N/A |
-| `openai-api-key` | OpenAI API key | Yes* | N/A |
-| `anthropic-api-key` | Anthropic API key | No | N/A |
+| `openai-api-key` | OpenAI API key | Yes† | N/A |
+| `anthropic-api-key` | Anthropic API key | No‡ | N/A |
 | `model-provider` | AI model provider to use (`openai` or `anthropic`) | No | `openai` |
 | `model` | Model to use (e.g., `gpt-4` for OpenAI or `claude-3-sonnet-20240229` for Anthropic) | No | `gpt-4` |
 
-\* Required if using OpenAI as the model provider
+† OpenAI API key is required unless using Anthropic (see note below)  
+‡ Anthropic API key is required if `model-provider` is set to `anthropic`
+
+**Note on API Keys:**
+- You must provide either an OpenAI API key or an Anthropic API key
+- By default, OpenAI will be used and requires an OpenAI API key
+- To use Anthropic:
+  1. Set `model-provider` to `anthropic`
+  2. Provide an `anthropic-api-key`
+  3. Optionally remove the `openai-api-key`
 
 ## Setup
 
