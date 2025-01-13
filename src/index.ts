@@ -59,7 +59,7 @@ async function run(): Promise<void> {
         max_tokens: 1000,
         messages: [{
           role: 'user',
-          content: `Please generate a clear and concise pull request description based on these changes:\n${JSON.stringify(changes, null, 2)}`
+          content: `Please generate a clear and concise pull request description based on the following changes. Format the description in an unordered list so it's easy for an engineer to read:\n${JSON.stringify(changes, null, 2)}`
         }]
       });
       
@@ -93,7 +93,7 @@ async function run(): Promise<void> {
     });
 
     // Create a header for the AI-generated description
-    const aiHeader = `\n\n## 🤖 PR Summarizer\n\n`;
+    const aiHeader = `\n\n## 🤖 AI Summary\n\n`;
     const aiDescription = aiHeader + description;
 
     // Update PR description
@@ -101,8 +101,8 @@ async function run(): Promise<void> {
     core.info(`Existing PR description: ${existingBody ? 'present' : 'empty'}`);
     
     // Check if there's already an AI-generated section and replace it
-    const aiSectionRegex = /\n\n## 🤖 PR Summarizer\n\n[\s\S]*?(?=\n\n##|$)/;
-    const hasExistingAiSection = existingBody.includes('## 🤖 PR Summarizer');
+    const aiSectionRegex = /\n\n## 🤖 AI Summary\n\n[\s\S]*?(?=\n\n##|$)/;
+    const hasExistingAiSection = existingBody.includes('## 🤖 AI Summary');
     core.info(`Existing AI section: ${hasExistingAiSection ? 'found' : 'not found'}`);
 
     const updatedBody = hasExistingAiSection
