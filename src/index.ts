@@ -49,6 +49,8 @@ async function run(): Promise<void> {
       patch: file.patch
     }));
 
+    const prompt = `Please generate a clear and concise pull request description based on the following changes. Format the description in an unordered list so it's easy for an engineer to read. And do not add an introctory paragraph.\n\n${JSON.stringify(changes, null, 2)}`;
+
     // Generate description using AI
     let description: string;
     if (modelProvider === 'anthropic' && anthropicApiKey) {
@@ -59,7 +61,7 @@ async function run(): Promise<void> {
         max_tokens: 1000,
         messages: [{
           role: 'user',
-          content: `Please generate a clear and concise pull request description based on the following changes. Format the description in an unordered list so it's easy for an engineer to read:\n${JSON.stringify(changes, null, 2)}`
+          content: prompt
         }]
       });
       
@@ -73,7 +75,7 @@ async function run(): Promise<void> {
         model: model || 'gpt-4',
         messages: [{
           role: 'user',
-          content: `Please generate a clear and concise pull request description based on these changes:\n${JSON.stringify(changes, null, 2)}`
+          content: prompt
         }]
       });
       
