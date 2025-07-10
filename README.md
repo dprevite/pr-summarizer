@@ -31,7 +31,7 @@ Add this action to your workflow file (e.g., `.github/workflows/pr-description.y
 name: Generate PR Description
 on:
   pull_request:
-    types: [opened]
+    types: [ opened ]
 
 permissions:
   pull-requests: write
@@ -53,12 +53,12 @@ jobs:
 
 ## Inputs
 
-| Input               | Description                                        | Required                                  | Default |
-|---------------------|----------------------------------------------------|-------------------------------------------|---------|
-| `github-token`      | GitHub token for API access                        | Yes                                       | N/A     |
-| `openai-api-key`    | OpenAI API key                                     | Yes†                                      | N/A     |
-| `anthropic-api-key` | Anthropic API key                                  | No‡                                       | N/A     |
-| `model-provider`    | AI model provider to use (`openai` or `anthropic`) | Nclaude-sonnet-4-20250514` for Anthropic) | No      | `gpt-4` |
+| Input               | Description                                        | Required | Default |
+|---------------------|----------------------------------------------------|----------|---------|
+| `github-token`      | GitHub token for API access                        | Yes      | N/A     |
+| `openai-api-key`    | OpenAI API key                                     | Yes†     | N/A     |
+| `anthropic-api-key` | Anthropic API key                                  | No‡      | N/A     |
+| `model-provider`    | AI model provider to use (`openai` or `anthropic`) | No       | `gpt-4` |
 
 † OpenAI API key is required unless using Anthropic (see note below)  
 ‡ Anthropic API key is required if `model-provider` is set to `anthropic`
