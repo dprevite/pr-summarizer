@@ -79,13 +79,13 @@ async function run() {
             deletions: file.deletions,
             patch: file.patch
         }));
-        const prompt = `Please generate a clear and concise pull request description based on the following changes. Format the description in an unordered list so it's easy for an engineer to read. And do not add an introctory paragraph.\n\n${JSON.stringify(changes, null, 2)}`;
+        const prompt = `Please generate a clear and concise pull request description based on the following changes. Format the description in an unordered list so it's easy for an engineer to read. Do not add an introductory paragraph.\n\n${JSON.stringify(changes, null, 2)}`;
         // Generate description using AI
         let description;
         if (modelProvider === 'anthropic' && anthropicApiKey) {
             const anthropic = new sdk_1.default({ apiKey: anthropicApiKey });
             const response = await anthropic.messages.create({
-                model: model || 'claude-3-sonnet-20240229',
+                model: model || 'claude-sonnet-4-20250514',
                 system: "You are a helpful assistant that creates clear and concise pull request descriptions.",
                 max_tokens: 1000,
                 messages: [{

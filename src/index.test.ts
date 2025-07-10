@@ -28,7 +28,7 @@ describe('PR Summarizer Action', () => {
     });
 
     it('should throw error if not run on a PR', async () => {
-        // Remove PR from payload
+        // Remove PR from the payload
         (github.context as any).payload.pull_request = undefined;
 
         // Import the module after setting up mocks
