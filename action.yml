@@ -1,6 +1,5 @@
 name: 'PR Summarizer'
 description: 'Automatically generates and updates pull request descriptions using AI (OpenAI/Anthropic)'
-author: 'Meido AI'
 
 inputs:
   github-token:
@@ -13,13 +12,13 @@ inputs:
     description: 'Anthropic API key for Claude'
     required: false
   model-provider:
-    description: 'AI model provider to use (openai or anthropic)'
+    description: 'AI model provider to use (`openai` or `anthropic`)'
     required: false
-    default: 'openai'
+    default: 'anthropic'
   model:
-    description: 'Model to use (e.g., gpt-4 for OpenAI or claude-3-sonnet-20240229 for Anthropic)'
+    description: 'Model to use (e.g., `gpt-4` for OpenAI or `claude-sonnet-4-20250514` for Anthropic)'
     required: false
-    default: 'gpt-4'
+    default: 'claude-sonnet-4-20250514'
 
 runs:
   using: 'node20'
